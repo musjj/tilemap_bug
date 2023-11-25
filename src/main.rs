@@ -107,7 +107,7 @@ fn add_camera(
     camera: Query<&CanvasCamera>,
     mut commands: Commands,
     level_query: Query<&LevelIid>,
-    // level_query: Query<&FooBar>, // INFO: Try replacing the query above with this
+    // level_query: Query<&FooBar>, // INFO: Replace the query above with this one to fix the crash
     canvas_query: Query<&Handle<Image>, With<Canvas>>,
 ) {
     if let Ok(iid) = level_query.get_single() {
@@ -126,21 +126,4 @@ fn add_camera(
             ));
         }
     }
-
-    // INFO: Uncomment block below and comment the block above to fix the crash
-
-    // if camera.is_empty() {
-    //     let canvas = canvas_query.single();
-    //     commands.spawn((
-    //         Camera2dBundle {
-    //             camera: Camera {
-    //                 order: -1,
-    //                 target: RenderTarget::Image(canvas.clone()),
-    //                 ..default()
-    //             },
-    //             ..default()
-    //         },
-    //         CanvasCamera,
-    //     ));
-    // }
 }
