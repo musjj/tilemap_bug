@@ -42,6 +42,9 @@ struct CanvasCamera;
 #[derive(Component)]
 struct Canvas;
 
+#[derive(Component)]
+struct FooBar;
+
 #[derive(Component, Default)]
 struct Tile;
 
@@ -74,7 +77,6 @@ fn setup(
                 | TextureUsages::RENDER_ATTACHMENT,
             view_formats: &[],
         },
-        // sampler: ImageSampler::nearest(),
         ..default()
     };
 
@@ -97,15 +99,18 @@ fn setup(
         ldtk_handle: asset_server.load("tilemap.ldtk"),
         ..default()
     });
+
+    commands.spawn(FooBar);
 }
 
 fn add_camera(
     camera: Query<&CanvasCamera>,
     mut commands: Commands,
-    level_query: Query<(&LevelIid, &Transform)>,
+    level_query: Query<&LevelIid>,
+    // level_query: Query<&FooBar>, // INFO: Try replacing the query above with this
     canvas_query: Query<&Handle<Image>, With<Canvas>>,
 ) {
-    if let Ok((iid, transform)) = level_query.get_single() {
+    if let Ok(iid) = level_query.get_single() {
         if camera.is_empty() {
             let canvas = canvas_query.single();
             commands.spawn((
